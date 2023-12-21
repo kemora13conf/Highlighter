@@ -1,6 +1,6 @@
 import Header from "./Header.js";
 import LineNumbersBar from './LineNumbersBar.js';
-import jsKeywords from './../json/javascript.js';
+import { serialize_line } from "./utils.js";
 
 export default class CodeEditor {
     constructor(mounting_point, options=null) {
@@ -29,39 +29,15 @@ export default class CodeEditor {
         this.textAria.innerHTML = this.generate_lines();
         this.textAria.classList.add("editor-text-aria");
     }
+    
     generate_lines(){
-        if(this.editor.lines){
-            let nlines = this.editor.lines;
-            const highlightedCode = nlines.map(line => {
-                let tokens = line.split(/(\b)/);
-                console.log(tokens);
-                let keywords = Object.keys(jsKeywords);
-                let values = Object.values(jsKeywords);
-                const highlightedLine = tokens.map(token => {
-                    if(keywords.includes(token)){
-                        return values[keywords.indexOf(token)];
-                    }
-                    if(token.includes(" ")){
-                        let n = "";
-                        for(let i = 0; i < token.length; i++){
-                            if(token[i] == " "){
-                                if((token[i-1] == '"' || token[i-1] == "'") && (token[i+1] == '"' || token[i+1] == "'")){
-                                    n += " ";
-                                }
-                                n += "&nbsp;";
-                            }else{
-                                n += token[i];
-                            }
-                        }
-                        return n;
-                    }
-                    return token;
-                }).join("");
-                return `<div class="editor-line">${highlightedLine}</div>`;
-            })
-            return highlightedCode.join("");
-        }
-        return "<div class='editor-line'> </div>"
+        let highlightedCode = '';
+        this.editor.lines.map((line, index) => {
+            const words = serialize_line(line);
+            highlightedCode += `<div class="editor-line" data-line="${index}">${words}</div>`;
+        });
+        // highlightedCode += `<div class="editor-line" data-line="0">${serialize_line(this.editor.lines[13])}</div>`;
+        return highlightedCode;
     }
     
     _config(){
