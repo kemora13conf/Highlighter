@@ -1,6 +1,6 @@
 import Header from "./Header.js";
 import LineNumbersBar from './LineNumbersBar.js';
-import keywords from './../json/javascript.js';
+import jsKeywords from './../json/javascript.js';
 
 export default class CodeEditor {
     constructor(mounting_point, options=null) {
@@ -11,16 +11,12 @@ export default class CodeEditor {
             language: "javascript",
             lines_number: 1,
             lines: [],
-            cursor: {
-                x: 0,
-                y: 0
-            }
         };
         if (this.options) {
             this.editor.name = this.options.name ? this.options.name : this.editor.name;
             this.editor.language = this.options.language ? this.options.language : this.editor.language;
             if (this.options.code?.length > 0) {
-                this.editor.lines = this.options.code.split("\n");
+                this.editor.lines = this.options.code.trim().split("\n");
                 this.editor.lines_number = this.editor.lines.length;
             }
         }
@@ -30,41 +26,46 @@ export default class CodeEditor {
         
         this.lineBar = new LineNumbersBar(this.editor);
         this.textAria = document.createElement("div");
-        this.textAria.setAttribute("contenteditable", true);
-        this.textAria.innerHTML = this.generate_lines().join("");
+        this.textAria.innerHTML = this.generate_lines();
         this.textAria.classList.add("editor-text-aria");
     }
     generate_lines(){
-        let generated_lines = [];
         if(this.editor.lines){
-            this.editor.lines.forEach(line => {
-                const line_element = document.createElement("div");
-                line_element.classList.add("editor-line");
-                const words = line.split(" ");
-                words.forEach(word => {
-                    keywords.forEach(keyword => {
-                        if(keyword.key == word){
-                            line_element.innerHTML += keyword.value + " ";
-                        }else{
-                            line_element.innerHTML += word + " ";
+            let nlines = this.editor.lines;
+            const highlightedCode = nlines.map(line => {
+                let tokens = line.split(/(\b)/);
+                console.log(tokens);
+                let keywords = Object.keys(jsKeywords);
+                let values = Object.values(jsKeywords);
+                const highlightedLine = tokens.map(token => {
+                    if(keywords.includes(token)){
+                        return values[keywords.indexOf(token)];
+                    }
+                    if(token.includes(" ")){
+                        let n = "";
+                        for(let i = 0; i < token.length; i++){
+                            if(token[i] == " "){
+                                if((token[i-1] == '"' || token[i-1] == "'") && (token[i+1] == '"' || token[i+1] == "'")){
+                                    n += " ";
+                                }
+                                n += "&nbsp;";
+                            }else{
+                                n += token[i];
+                            }
                         }
-                    });
-                });                
-                generated_lines.push(line_element);
-            });
+                        return n;
+                    }
+                    return token;
+                }).join("");
+                return `<div class="editor-line">${highlightedLine}</div>`;
+            })
+            return highlightedCode.join("");
         }
-        return generated_lines;
+        return "<div class='editor-line'> </div>"
     }
     
     _config(){
-        window.addEventListener("keyup", (event) => {
-            console.log(event);
-            if(event.target == this.textAria){
-                this.editor.lines = this.textAria.textContent;
-                this.editor.lines_number = this.editor.lines.length;
-                this.lineBar.update_lines();
-            }
-        });
+        
     }
     _render(){
         const header = new Header(this.editor);

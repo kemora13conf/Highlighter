@@ -16,10 +16,6 @@
     font-size: 13px;
     line-height: 1.5;
     color: var(--editor-quaternary-color);
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 
     overflow: hidden;
     border-radius: 15px;
@@ -45,6 +41,7 @@
 .editor-container{
     width: 100%;
     height: calc(100% - 30px);
+    min-height: 300px;
     display: flex;
     align-items: stretch;
     background-color: var(--editor-primary-color);
@@ -73,7 +70,6 @@
     width: 100%;
     padding: 10px;
     background-color: var(--editor-primary-color);
-    background-color: red;
     border: none;
     outline: none;
     resize: none;
