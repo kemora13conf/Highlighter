@@ -1,39 +1,29 @@
 @font-face {
     font-family: 'Fira Code';
-    src: url(../fontFamily/Fira/FiraCode-VariableFont_wght.ttf);
+    src: url(./fontFamily/Fira/FiraCode-VariableFont_wght.ttf);
 }
-*{
+
+.code-editor *{
     font-family: 'Fira Code';
 }
-:root{
+.code-editor{
     --editor-primary-color: #092635;
+    --editor-primary-darker-color: #06212e;
     --editor-secondary-color: #1B4242;
     --editor-tertiary-color: #5C8374;
     --editor-quaternary-color: #9EC8B9;
-}
-.code-editor{
     width: 100%;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-    background-color: var(--editor-primary-color);
-    border-radius: 3px;
+    max-height: 100%;
     box-shadow: 0 1px 1px rgba(0,0,0,.04);
-    font-family: monospace;
-    font-size: 13px;
-    line-height: 1.5;
-    color: var(--editor-quaternary-color);
-
-    overflow: hidden;
-    border-radius: 15px;
 }
 .editor-header{
     height: auto;
-    padding: 5px 10px;
+    padding: 10px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: var(--editor-secondary-color);
+    background-color: var(--editor-primary-darker-color);
+    color: var(--editor-quaternary-color);
     border-radius: 3px 3px 0 0;
     box-shadow: 0 1px 5px rgba(0,0,0,.4);
 }
@@ -45,79 +35,104 @@
     font-size: 13px;
     font-weight: 600;
 }
+.editor-header .editor-actions{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    overflow: hidden;
+}
+.editor-header .editor-actions .icon-copy{
+    font-size: 20px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+.editor-header .editor-actions .copied{
+    display: flex;
+    font-size: 13px;
+    padding-right: 10px;
+    max-width: 0px;
+    opacity: 0;
+    margin-right: -15px;
+    transition: all .3s ease;
+}
+.editor-header .editor-actions .copied-show{
+    max-width: 100px;
+    opacity: 1;
+    margin-right: 0px;
+    transition: all .3s ease;
+}
+
 .editor-container{
     width: 100%;
-    height: calc(100% - 30px);
-    min-height: 300px;
-    max-height: 500px;
+    max-height: calc(100% - 50px);
     display: flex;
     align-items: stretch;
     justify-content: flex-start;
     background-color: var(--editor-primary-color);
     border-radius: 0 0 3px 3px;
-    overflow: auto;
+    overflow-y: auto;
 }
-.editor-container::-webkit-scrollbar{
-    width: 10px;
+.editor-container::-webkit-scrollbar,
+.editor-text-aria::-webkit-scrollbar{
+    width: 20px;
     height: 20px;
     background-color: var(--editor-primary-color);
 }
-.editor-container::-webkit-scrollbar-track{
+.editor-container::-webkit-scrollbar-track,
+.editor-text-aria::-webkit-scrollbar-track{
     background-color: var(--editor-primary-color);
 }
-.editor-container::-webkit-scrollbar-thumb{
-    background-color: var(--editor-tertiary-color);
+.editor-container::-webkit-scrollbar-thumb,
+.editor-text-aria::-webkit-scrollbar-thumb{
+    background-color: #deff83;
     border: 5px solid var(--editor-primary-color);
     border-radius: 20px;
 }
-.editor-container .editor-line-numbers-bar{
+.editor-line-numbers-bar{
     min-width: 30px;
-    min-height: fit-content;
     padding: 10px 0;
     display: flex;
+    height: fit-content;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     background-color: var(--editor-primary-color);
-    border-right: 1px solid var(--editor-tertiary-color);
-    overflow: hidden;
+
 }
-.editor-container .editor-line-numbers-bar .editor-line-number{
+.editor-line-number{
     width: 100%;
     height: 20px;
+    line-height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--editor-tertiary-color);
 }
 .editor-text-aria{
-    min-width: fit-content;
-    min-height: fit-content;
+    height: fit-content;
+    width: 100%;
     padding: 10px;
     background-color: var(--editor-primary-color);
     border: none;
     outline: none;
     resize: none;
-    color: var(--editor-quaternary-color);
     font-family: monospace;
     font-size: 13px;
-    line-height: 1.5;
-    overflow: auto;
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
+    overflow-x: auto;
 }
-
-.keyword{
-    color: #569CD6;
-    font-family: monospace !important;
-    font-weight: bold;
-}
-.symbol{
-    color: #c3ff20;
-    font-family: monospace !important;
-}
-.word{
-    color: whitesmoke;
+.editor-line{
+    display: flex;
+    height: 20px;
+    line-height: 20px;
+    color: var(--editor-quaternary-color);
 }

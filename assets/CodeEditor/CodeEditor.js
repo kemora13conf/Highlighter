@@ -1,14 +1,15 @@
-import Header from "./Header.js";
-import LineNumbersBar from './LineNumbersBar.js';
-import { serialize_line } from "./utils.js";
+import Header from "./Parts/Header.js";
+import LineNumbersBar from './Parts/LineNumbersBar.js';
+import TextAria from "./Parts/TextAria.js";
 
 export default class CodeEditor {
     constructor(mounting_point, options=null) {
         this.mounting_point = mounting_point;
         this.options = options;
         this.editor = {
-            name: "CodeEditor",
-            language: "javascript",
+            name: "Code Preview",
+            language: "Javascript",
+            theme: "dark",
             lines_number: 1,
             lines: [],
         };
@@ -22,42 +23,48 @@ export default class CodeEditor {
         }
 
         this.parent = document.createElement("div");
-        this.parent.classList.add("code-editor");
-        
+        this.container = document.createElement("div");
+
+        this.header = new Header(this.editor);
         this.lineBar = new LineNumbersBar(this.editor);
-        this.textAria = document.createElement("div");
-        this.textAria.innerHTML = this.generate_lines();
-        this.textAria.classList.add("editor-text-aria");
+        this.preview = new TextAria(this.editor);
+
+        this._config_styles_and_scripts();
     }
-    
-    generate_lines(){
-        let highlightedCode = '';
-        this.editor.lines.map((line, index) => {
-            const words = serialize_line(line);
-            highlightedCode += `<div class="editor-line" data-line="${index}">${words}</div>`;
-        });
-        // highlightedCode += `<div class="editor-line" data-line="0">${serialize_line(this.editor.lines[13])}</div>`;
-        return highlightedCode;
+    _generate_style_element(link){
+        const codeEditorStyle = document.createElement("link");
+        codeEditorStyle.rel = "stylesheet";
+        codeEditorStyle.href = link;
+        return codeEditorStyle;
     }
-    
-    _config(){
-        
+    _generate_script_element(link){
+        const codeEditorScript = document.createElement("script");
+        codeEditorScript.src = link;
+        return codeEditorScript;
+    }
+    _config_styles_and_scripts(){
+        document
+            .head.append(
+                this._generate_style_element("./assets/CodeEditor/Styles/styles.css"),
+                this._generate_style_element(`./assets/CodeEditor/Styles/icons/copy.css`),
+                this._generate_style_element(`./assets/CodeEditor/Styles/languages/${this.editor.language}.css`),
+                this._generate_script_element("./assets/CodeEditor/Third-Party/Clipboard.js"),
+            );
+    }
+    _config_html_elements(){
+        this.parent.classList.add("code-editor");
+        this.container.classList.add("editor-container");
     }
     _render(){
-        const header = new Header(this.editor);
-        this.parent.appendChild(header.render());
-
-        const container = document.createElement("div");
-        container.classList.add("editor-container");
-
-        container.appendChild(this.lineBar.render());
-        container.appendChild(this.textAria);
-        this.parent.appendChild(container);
+        this._config_html_elements();
+        this.parent.appendChild(this.header.render());
+        this.container.appendChild(this.lineBar.render());
+        this.container.appendChild(this.preview.render());
+        this.parent.appendChild(this.container);
 
         this.mounting_point.appendChild(this.parent);
     }
     render () {
-        this._config();
         this._render();
     }
 }
