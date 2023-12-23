@@ -1,14 +1,15 @@
 import Header from "./Parts/Header.js";
 import LineNumbersBar from './Parts/LineNumbersBar.js';
 import TextAria from "./Parts/TextAria.js";
+import themes from "./Themes/themes.js";
 
-export default class CodeEditor {
+class CodeEditor {
     constructor(mounting_point, options=null) {
         this.mounting_point = mounting_point;
         this.options = options;
         this.editor = {
             name: "Code Preview",
-            language: "Javascript",
+            language: "no_language",
             theme: "dark",
             lines_number: 1,
             lines: [],
@@ -16,6 +17,7 @@ export default class CodeEditor {
         if (this.options) {
             this.editor.name = this.options.name ? this.options.name : this.editor.name;
             this.editor.language = this.options.language ? this.options.language : this.editor.language;
+            this.editor.theme = this.options.theme ? this.options.theme : this.editor.theme;
             if (this.options.code?.length > 0) {
                 this.editor.lines = this.options.code.trim().split("\n");
                 this.editor.lines_number = this.editor.lines.length;
@@ -25,7 +27,7 @@ export default class CodeEditor {
         this.parent = document.createElement("div");
         this.container = document.createElement("div");
 
-        this.header = new Header(this.editor);
+        this.header = new Header(this);
         this.lineBar = new LineNumbersBar(this.editor);
         this.preview = new TextAria(this.editor);
 
@@ -46,14 +48,23 @@ export default class CodeEditor {
         document
             .head.append(
                 this._generate_style_element("./assets/CodeEditor/Styles/styles.css"),
-                this._generate_style_element(`./assets/CodeEditor/Styles/icons/copy.css`),
-                this._generate_style_element(`./assets/CodeEditor/Styles/languages/${this.editor.language}.css`),
+                this._generate_style_element(`./assets/CodeEditor/Styles/icons/icons.css`),
                 this._generate_script_element("./assets/CodeEditor/Third-Party/Clipboard.js"),
             );
     }
     _config_html_elements(){
         this.parent.classList.add("code-editor");
         this.container.classList.add("editor-container");
+
+        const theme = themes[this.editor.theme];
+        for (const [key, value] of Object.entries(theme)) {
+            this.parent.style.setProperty(key, value);
+        }
+    }
+    update_theme(theme){
+        this.editor.theme = theme;
+        this._config_styles_and_scripts();
+        this._config_html_elements();
     }
     _render(){
         this._config_html_elements();
@@ -68,3 +79,5 @@ export default class CodeEditor {
         this._render();
     }
 }
+
+export default CodeEditor;

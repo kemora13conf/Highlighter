@@ -2,7 +2,7 @@ import symbols from "../../json/symbols.js";
 import Parser from "./Parsers.js";
 
 function letters_into_words(line) {
-  const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_";
   let words = [];
   let word = "";
   for (let i = 0; i < line.length + 1; i++) {
@@ -40,7 +40,7 @@ function consvert_tabs(line_arr) {
 
 function serialize_line(line, language) {
   let new_line = line;
-  const parser = Parser[language];
+  const parser = Parser[language] || Parser.no_language;
   let words = letters_into_words(line);
   words = convert_spaces(words);
   words = consvert_tabs(words);

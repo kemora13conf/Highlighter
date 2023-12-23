@@ -1,33 +1,43 @@
 
 export default class Header {
-  constructor(editor) {
-    this.editor = editor;
+  constructor(parent) {
+    this.parent = parent;
 
     this.element = document.createElement("div");
     this.element.classList.add("editor-header");
     this.element.innerHTML = `
             <div class='editor-name'>
-                ${this.editor.name}
+                ${this.parent.editor.name}
             </div>
             <div class='editor-language'>
-                (${this.editor.language})
+                (${this.parent.editor.language.toUpperCase()})
             </div>
         `;
+
+    
     this.editor_actions = document.createElement("div");
-    this.editor_actions.classList.add("editor-actions");
+
+    this.switch_theme = document.createElement("div");
+    this.theme_checkBox = document.createElement("input");
+    this.sun = document.createElement("span");
+    this.moon = document.createElement("span");
+    this.switch_theme.append(this.theme_checkBox, this.sun, this.moon);
+    
+
+    this.copy_action = document.createElement("div");
     this.copy = document.createElement("span");
-    this.copy.classList.add("icon-copy");
     this.copied = document.createElement("span");
-    this.copied.classList.add("copied");
-    this.copied.innerHTML = "Copied!";
-    this.editor_actions.append(this.copy, this.copied);
+    this.copy_action.append(this.copy, this.copied);
+
+    this.editor_actions.append(this.switch_theme, this.copy_action);
 
     this.element.appendChild(this.editor_actions);
     
+    this.consig_elements();
     this._config_actions();
   }
   _config_actions() {
-    const text = this.editor.lines.join("\n");
+    const text = this.parent.editor.lines.join("\n");
     let copied = this.copied;
     this.copy.addEventListener("click", () => {
         let clipboard = new Clipboard('.icon-copy', {
@@ -47,6 +57,26 @@ export default class Header {
         });
 
     });
+    this.theme_checkBox.addEventListener("change", () => {
+        this.parent.update_theme(this.parent.editor.theme == "light" ? "dark" : "light")
+    });
+    this.switch_theme.addEventListener("click", () => {
+        this.theme_checkBox.click();
+    });
+  }
+  consig_elements() {
+    this.editor_actions.classList.add("editor-actions");
+    this.switch_theme.classList.add("editor-action-switch-theme");
+    this.theme_checkBox.type = "checkbox";
+    this.theme_checkBox.id = "theme-switch";
+    this.theme_checkBox.checked = this.parent.editor.theme == "light" ? false : true;
+    this.sun.classList.add("icon-sun");
+    this.moon.classList.add("icon-moon");
+
+    this.copy_action.classList.add("editor-action-copy");
+    this.copy.classList.add("icon-copy");
+    this.copied.classList.add("copied");
+    this.copied.innerHTML = "Copied!";
   }
   render() {
     return this.element;
