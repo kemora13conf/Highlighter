@@ -1,7 +1,5 @@
-import CodeEditor from "./CodeEditor/CodeEditor.js";
-import sample from "./CodeEditor/sample.js";
-
-const html = new CodeEditor(
+let codeEditor = CodeEditor.default;
+const html = new codeEditor(
     document.getElementById("html"),
     {
         code: sample.html,
@@ -11,7 +9,7 @@ const html = new CodeEditor(
 );
 html.render();
 
-const css = new CodeEditor(
+const css = new codeEditor(
     document.getElementById("css"),
     {
         code: sample.css,
@@ -21,7 +19,7 @@ const css = new CodeEditor(
 );
 css.render();
 
-const javascript = new CodeEditor(
+const javascript = new codeEditor(
     document.getElementById("js"),
     {
         code: sample.javascript,
