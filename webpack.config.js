@@ -2,11 +2,11 @@ const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   mode: "development",
-  entry: "./assets/CodeEditor/CodeEditor.js",
+  entry: "./Highlighter.js",
   output: {
-    filename: "codeEditor.min.js",
+    filename: "Highlighter-v1.0.1.min.js",
     path: __dirname + "/dist",
-    library: "CodeEditor",
+    library: "Highlighter",
     libraryTarget: "umd",
     globalObject: "this",
   },
