@@ -75,6 +75,6 @@ const javascript = new CodeEditor(
         theme: "dark"
     }
 );
-javascript.render();
+javascript.render().reduce("function");
 `,
 };

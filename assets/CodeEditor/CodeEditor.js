@@ -32,6 +32,14 @@ class CodeEditor {
         this.preview = new TextAria(this.editor);
 
         this._config_styles_and_scripts();
+        this.mounting_point.innerHTML = this.generate_loading();
+    }
+    generate_loading(){
+        return `
+            <div class="loading">
+                <div class="loading-icon"></div>
+            </div>
+        `;
     }
     _generate_style_element(link){
         const codeEditorStyle = document.createElement("link");
@@ -42,6 +50,10 @@ class CodeEditor {
     _generate_script_element(link){
         const codeEditorScript = document.createElement("script");
         codeEditorScript.src = link;
+        // wait untill the script is loaded
+        codeEditorScript.onload = () => {
+            this._render();
+        }
         return codeEditorScript;
     }
     _config_styles_and_scripts(){
@@ -73,6 +85,7 @@ class CodeEditor {
         this.container.appendChild(this.preview.render());
         this.parent.appendChild(this.container);
 
+        this.mounting_point.innerHTML = "";
         this.mounting_point.appendChild(this.parent);
     }
     render () {
