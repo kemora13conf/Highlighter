@@ -30,28 +30,6 @@ class Highlighter {
         this.header = new Header(this);
         this.lineBar = new LineNumbersBar(this.editor);
         this.preview = new TextAria(this.editor);
-
-        this._config_styles();
-        this.mounting_point.innerHTML = this.generate_loading();
-    }
-    generate_loading(){
-        return `
-            <div class="loading">
-                <div class="loading-icon"></div>
-            </div>
-        `;
-    }
-    _generate_style_element(link){
-        const codeEditorStyle = document.createElement("link");
-        codeEditorStyle.rel = "stylesheet";
-        codeEditorStyle.href = link;
-        return codeEditorStyle;
-    }
-    _config_styles(){
-        document
-            .head.append(
-                this._generate_style_element("http://127.0.0.1:5501/Styles/styles.css"),
-            );
     }
     _config_html_elements(){
         this.parent.classList.add("code-editor");
@@ -64,7 +42,6 @@ class Highlighter {
     }
     update_theme(theme){
         this.editor.theme = theme;
-        this._config_styles_and_scripts();
         this._config_html_elements();
     }
     _render(){
@@ -74,7 +51,6 @@ class Highlighter {
         this.container.appendChild(this.preview.render());
         this.parent.appendChild(this.container);
 
-        this.mounting_point.innerHTML = "";
         this.mounting_point.appendChild(this.parent);
     }
     render () {
