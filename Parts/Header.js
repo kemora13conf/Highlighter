@@ -1,4 +1,5 @@
-
+import { convert_to_svg } from "../helpers/utils.js";
+import icons from "./icons/icons.js";
 export default class Header {
   constructor(parent) {
     this.parent = parent;
@@ -13,19 +14,17 @@ export default class Header {
                 (${this.parent.editor.language.toUpperCase()})
             </div>
         `;
-
-    
     this.editor_actions = document.createElement("div");
 
     this.switch_theme = document.createElement("div");
     this.theme_checkBox = document.createElement("input");
-    this.sun = document.createElement("span");
-    this.moon = document.createElement("span");
+    this.sun = convert_to_svg(icons["icon-sun"]);
+    this.moon = convert_to_svg(icons["icon-moon"]);
     this.switch_theme.append(this.theme_checkBox, this.sun, this.moon);
     
 
     this.copy_action = document.createElement("div");
-    this.copy = document.createElement("span");
+    this.copy = convert_to_svg(icons["icon-copy"]);
     this.copied = document.createElement("span");
     this.copy_action.append(this.copy, this.copied);
 
@@ -36,6 +35,7 @@ export default class Header {
     this.consig_elements();
     this._config_actions();
   }
+  
   _config_actions() {
     const text = this.parent.editor.lines.join("\n");
     let copied = this.copied;

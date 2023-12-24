@@ -48,5 +48,22 @@ function serialize_line(line, language) {
   new_line = words.join("");
   return new_line;
 }
+function convert_to_svg(svg) {
+  let parser = new DOMParser();
+  let doc = parser.parseFromString(svg, "image/svg+xml");
+  // remove the fill attribute from all paths and svg
+  let svg_element = doc.querySelector("svg");
+  svg_element.removeAttribute("fill");
+  svg_element.removeAttribute("stroke");
+  // config height and width
+  svg_element.setAttribute("width", "30px");
+  svg_element.setAttribute("height", "30px");
+  
+  let paths = doc.querySelectorAll("path");
+  paths.forEach((path) => {
+    path.removeAttribute("fill");
+  });
+  return doc.firstChild;
+}
 
-export { serialize_line };
+export { serialize_line, convert_to_svg };

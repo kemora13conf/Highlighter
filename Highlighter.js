@@ -59,9 +59,8 @@ class Highlighter {
     _config_styles_and_scripts(){
         document
             .head.append(
-                this._generate_style_element("./Styles/styles.css"),
-                this._generate_style_element(`./Styles/icons/icons.css`),
-                this._generate_script_element("./Third-Party/Clipboard.js"),
+                this._generate_style_element("http://127.0.0.1:5501/Styles/styles.css"),
+                this._generate_script_element("http://127.0.0.1:5501/Third-Party/Clipboard.js"),
             );
     }
     _config_html_elements(){
