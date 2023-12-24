@@ -6,7 +6,7 @@ module.exports = {
   output: {
     filename: "Highlighter-v1.0.1.min.js",
     path: __dirname + "/dist",
-    library: "Highlighter",
+    library: "highlighter",
     libraryTarget: "umd",
     globalObject: "this",
   },
