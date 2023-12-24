@@ -1,4 +1,4 @@
-// import ClipboardJS from "../node_modules/clipboard/src/clipboard.js";
+import ClipboardJS from "../node_modules/clipboard/src/clipboard.js";
 import { convert_to_svg } from "../helpers/utils.js";
 import icons from "./icons/icons.js";
 export default class Header {

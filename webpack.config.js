@@ -4,7 +4,7 @@ module.exports = {
   mode: "development",
   entry: "./Highlighter.js",
   output: {
-    filename: "Highlighter-v1.0.1.min.js",
+    filename: "Highlighter-v2.0.0.min.js",
     path: __dirname + "/dist",
     library: "highlighter",
     libraryTarget: "umd",

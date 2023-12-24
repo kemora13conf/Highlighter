@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Highlighter</title>
+    <link rel="stylesheet" href="./main.css" />
+    <link rel="stylesheet" href="../Styles/styles.css" />
+    <script src="./sample.js"></script>
+    <script src="../dist/Highlighter-v2.0.0.min.js"></script>
+  </head>
+  <body
+    class="min-h-screen w-full flex flex-col items-stretch justify-center bg-slate-100"
+  >
+    <div
+      class="w-full p-[10px] flex flex-col gap-3 mt-10 max-w-[720px] mx-auto"
+    >
+      <h1 class="text-5xl font-bold">Highlighter</h1>
+      <p class="text-sm text-gray-500">
+        Highlighter is a simple and easy to use code editor that can be used in
+        any project
+      </p>
+    </div>
+    <div
+      class="w-full flex items-center justify-center flex-col gap-[10px] p-[10px] max-w-[720px] mx-auto "
+    >
+      <div class="editor" id="html"></div>
+      <h1 class="text-4xl font-bold w-full mt-5">Theme</h1>
+      <p class="text-gray-500 w-full">
+        Experience the the theme of the Highlighter by changing the theme of the code
+      </p>
+      <div class="editor" id="css"></div>
+        <h1 class="text-4xl font-bold w-full mt-5">Easy to use</h1>
+        <p class="text-gray-500 w-full">
+            You import it to your project and you are good to go
+        </p>
+      <div class="editor" id="js"></div>
+    </div>
+    <script src="./App.js" type="module"></script>
+  </body>
+</html>
