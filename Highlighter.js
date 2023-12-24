@@ -31,7 +31,7 @@ class Highlighter {
         this.lineBar = new LineNumbersBar(this.editor);
         this.preview = new TextAria(this.editor);
 
-        this._config_styles_and_scripts();
+        this._config_styles();
         this.mounting_point.innerHTML = this.generate_loading();
     }
     generate_loading(){
@@ -47,20 +47,10 @@ class Highlighter {
         codeEditorStyle.href = link;
         return codeEditorStyle;
     }
-    _generate_script_element(link){
-        const codeEditorScript = document.createElement("script");
-        codeEditorScript.src = link;
-        // wait untill the script is loaded
-        codeEditorScript.onload = () => {
-            this._render();
-        }
-        return codeEditorScript;
-    }
-    _config_styles_and_scripts(){
+    _config_styles(){
         document
             .head.append(
                 this._generate_style_element("http://127.0.0.1:5501/Styles/styles.css"),
-                this._generate_script_element("http://127.0.0.1:5501/Third-Party/Clipboard.js"),
             );
     }
     _config_html_elements(){

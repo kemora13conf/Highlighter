@@ -1,3 +1,4 @@
+import ClipboardJS from "clipboard";
 import { convert_to_svg } from "../helpers/utils.js";
 import icons from "./icons/icons.js";
 export default class Header {
@@ -40,7 +41,7 @@ export default class Header {
     const text = this.parent.editor.lines.join("\n");
     let copied = this.copied;
     this.copy.addEventListener("click", () => {
-        let clipboard = new Clipboard('.icon-copy', {
+        let clipboard = new ClipboardJS('.icon-copy', {
             text: function(trigger) {
                 return text;
             }

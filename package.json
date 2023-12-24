@@ -21,5 +21,8 @@
     "presets": [
       "@babel/preset-env"
     ]
+  },
+  "dependencies": {
+    "clipboard": "^2.0.11"
   }
 }
