@@ -1,4 +1,4 @@
-import ClipboardJS from "../node_modules/clipboard/src/clipboard.js";
+import Clipboard from "../helpers/Clipboard.js";
 import { convert_to_svg } from "../helpers/utils.js";
 import icons from "./icons/icons.js";
 export default class Header {
@@ -22,7 +22,6 @@ export default class Header {
     this.sun = convert_to_svg(icons["icon-sun"]);
     this.moon = convert_to_svg(icons["icon-moon"]);
     this.switch_theme.append(this.theme_checkBox, this.sun, this.moon);
-    
 
     this.copy_action = document.createElement("div");
     this.copy = convert_to_svg(icons["icon-copy"]);
@@ -32,38 +31,29 @@ export default class Header {
     this.editor_actions.append(this.switch_theme, this.copy_action);
 
     this.element.appendChild(this.editor_actions);
-    
+
     this.consig_elements();
     this._config_actions();
   }
-  
+
   _config_actions() {
     const text = this.parent.editor.lines.join("\n");
     let copied = this.copied;
     this.copy.addEventListener("click", () => {
-        if (!ClipboardJS) return;
-        let clipboard = new ClipboardJS('.icon-copy', {
-            text: function(trigger) {
-                return text;
-            }
-        });
-        clipboard.on('success', function(e) {
-            copied.classList.add("copied-show");
-            setTimeout(() => {
-                copied.classList.remove("copied-show");
-            }, 1500);
-
-        });
-        clipboard.on('error', function(e) {
-            console.log(e);
-        });
-
+      let clipboard = new Clipboard();
+      clipboard.copy(text);
+      copied.classList.add("copied-show");
+      setTimeout(() => {
+        copied.classList.remove("copied-show");
+      }, 1500);
     });
     this.theme_checkBox.addEventListener("change", () => {
-        this.parent.update_theme(this.parent.editor.theme == "light" ? "dark" : "light")
+      this.parent.update_theme(
+        this.parent.editor.theme == "light" ? "dark" : "light"
+      );
     });
     this.switch_theme.addEventListener("click", () => {
-        this.theme_checkBox.click();
+      this.theme_checkBox.click();
     });
   }
   consig_elements() {
@@ -71,7 +61,8 @@ export default class Header {
     this.switch_theme.classList.add("editor-action-switch-theme");
     this.theme_checkBox.type = "checkbox";
     this.theme_checkBox.id = "theme-switch";
-    this.theme_checkBox.checked = this.parent.editor.theme == "light" ? false : true;
+    this.theme_checkBox.checked =
+      this.parent.editor.theme == "light" ? false : true;
     this.sun.classList.add("icon-sun");
     this.moon.classList.add("icon-moon");
 
