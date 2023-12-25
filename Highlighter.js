@@ -6,9 +6,10 @@ import themes from "./Themes/themes.js";
 class Highlighter {
     constructor(mounting_point, options=null) {
         this.mounting_point = mounting_point;
+        this.mounting_point.innerHTML = "";
         this.options = options;
         this.editor = {
-            name: "Code Preview",
+            name: "Highlighter",
             language: "no_language",
             theme: "dark",
             lines_number: 1,
